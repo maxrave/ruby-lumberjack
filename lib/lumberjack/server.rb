@@ -248,7 +248,7 @@ module Lumberjack
     end
 
     def data(sequence, map, &block)
-      block.call(map) if block_given?
+      block.call(map, @fd.peeraddr[3]) if block_given?
       if (sequence - @last_ack) >= @window_size
         @fd.syswrite(["1A", sequence].pack("A*N"))
         @last_ack = sequence
